@@ -30,11 +30,8 @@ describe('Miner', () => {
 		command = await goldCoin.connect(owner).approve(miner.address, 1000000);
 		await command.wait();
 
-		command = await goldCoin.connect(owner).mint(miner.address, 5000);
-		await command.wait();
-
 	})
-	it('Good First Test', async () => {
+	it('First Test', async () => {
 		result = await mineralCoin.balanceOf(miner.address);
 		expect(result).to.be.equal(0);
 
