@@ -13,7 +13,10 @@ contract Miner {
     mapping(address => uint256) public walletBalance;
     uint256 public mineralToBurn;
 
-    uint8 public goldRate = 5;
+    //500 = 5.00%
+    uint256 public goldRate = 500;
+
+    uint256 public mineralPrice = 2 ether;
 
     modifier onlyOwner() {
         require(msg.sender == owner);
@@ -56,7 +59,7 @@ contract Miner {
 
     //Calculated Gold (ROUNDS DOWN), transfers gold coin to user, removes the mineral coin from balance, adds mineral to burn balance
     function mineGold() public {
-        uint256 calcGold = walletBalance[msg.sender] * (goldRate * 10) / 1000;
+        uint256 calcGold = walletBalance[msg.sender] * (goldRate * 10) / 100000;
         require(calcGold > 0);
         goldCoin.transfer(msg.sender, calcGold);
         walletBalance[msg.sender] -= calcGold;
@@ -77,5 +80,24 @@ contract Miner {
     function getMineralBalance() public view returns(uint256) {
         return mineralCoin.balanceOf(address(this));
     }
+
+    function getContractBalance() public view returns(uint256) {
+        return address(this).balance;
+    }
+
+    function buyMineral() public payable {
+        require(msg.value >= mineralPrice, "Not Enough Money Sent");
+        uint256 calcCoin = msg.value / mineralPrice;
+        mineralCoin.transfer(msg.sender, calcCoin);
+        //(bool sent, ) = payable(owner).call{value: msg.value}("");
+        //require(sent, "Ether did not send");
+    }
+
+    function payOut() public payable onlyOwner {
+        (bool sent, ) = payable(owner).call{value: getContractBalance()}("");
+        require(sent, "Ether Didn't Pay Out");
+    }
+
+    receive() external payable { }
 
 }
