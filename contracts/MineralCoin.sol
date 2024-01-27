@@ -11,7 +11,7 @@ contract MineralCoin is ERC20, ERC20Burnable, Ownable {
         ERC20("MineralCoin", "MLC")
         Ownable()
     {
-        _mint(msg.sender, 1000000000000000 * 10 ** decimals());
+        _mint(msg.sender, 1000000000000 * 10 ** decimals());
     }
 
 }

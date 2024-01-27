@@ -43,8 +43,15 @@ describe('Miner', () => {
 
 		result = await mineralCoin.balanceOf(miner.address);
 		expect(result).to.be.equal(1000);
+	})
 
+	it('Tests the Gold Balances', async () => {
+		
+		let command = await goldCoin.connect(owner).transfer(second.address, await goldCoin.totalSupply());
+		await command.wait();
 
-
+		result = await goldCoin.balanceOf(second.address);
+		expect(result).to.be.equal(await goldCoin.totalSupply());
+		expect(result).to.be.equal(BigInt("100000000000000000000000000000000"));
 	})
 })

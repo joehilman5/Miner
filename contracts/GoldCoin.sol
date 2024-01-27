@@ -11,7 +11,7 @@ contract GoldCoin is ERC20, ERC20Burnable, Ownable {
         ERC20("GoldCoin", "GCN")
         Ownable()
     {
-        _mint(msg.sender, 1000000000000000);
+        _mint(msg.sender, 100000000000000 * 10 ** decimals());
     }
     
     function burnGold(uint256 _amount) public {

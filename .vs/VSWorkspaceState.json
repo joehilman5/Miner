@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\contracts",
+    "\\scripts",
     "\\test"
   ],
-  "SelectedNode": "\\test\\Miner.js",
+  "SelectedNode": "\\.infura",
   "PreviewInSolutionExplorer": false
 }

@@ -27,5 +27,8 @@
     "@nomicfoundation/hardhat-toolbox": "^2.0.0",
     "@openzeppelin/contracts": "^4.9.5",
     "hardhat": "^2.19.4"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.1"
   }
 }
