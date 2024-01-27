@@ -5,6 +5,6 @@
     "\\scripts",
     "\\test"
   ],
-  "SelectedNode": "\\.infura",
+  "SelectedNode": "\\hardhat.config.js",
   "PreviewInSolutionExplorer": false
 }
