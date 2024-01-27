@@ -57,7 +57,8 @@ contract Miner {
     //Calculated Gold (ROUNDS DOWN), transfers gold coin to user, removes the mineral coin from balance, adds mineral to burn balance
     function mineGold() public {
         uint256 calcGold = walletBalance[msg.sender] * (goldRate * 10) / 1000;
-        goldCoin.transferFrom(owner, msg.sender, calcGold);
+        require(calcGold > 0);
+        goldCoin.transfer(msg.sender, calcGold);
         walletBalance[msg.sender] -= calcGold;
         walletBalance[address(this)] -= calcGold;
 
