@@ -19,7 +19,16 @@ async function main() {
 	await miner.deployed();
 	console.log(`Deployed Miner Contract at: ${miner.address}`);
 
+	let action = await mineralCoin.transfer(miner.address, BigInt('500000000000000000000000000000'));
+	await action.wait();
+	console.log(`Transfered Minerial to Contract`);
 
+	action = await goldCoin.transfer(miner.address,  BigInt('500000000000000000000000000000'));
+	await action.wait();
+	console.log(`Transfered Gold to Contract`);
+
+	console.log(`Minerial Balance of Contract: ${await mineralCoin.balanceOf(miner.address)}`);
+	console.log(`Gold Balance of Contract: ${await goldCoin.balanceOf(miner.address)}`);
 }
 
 main().catch((error) => {

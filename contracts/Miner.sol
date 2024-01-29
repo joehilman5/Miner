@@ -5,6 +5,8 @@ import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 contract Miner {
 
+    //ETH: 0.000000005
+
     address public owner;
     IERC20 goldCoin;
     IERC20 mineralCoin;
@@ -15,8 +17,8 @@ contract Miner {
 
     //500 = 5.00%
     uint256 public goldRate = 500;
-
-    uint256 public mineralPrice = 2 ether;
+    bool public lock = true;
+    uint256 public mineralPrice = 5000000000;
 
     modifier onlyOwner() {
         require(msg.sender == owner);
@@ -60,12 +62,18 @@ contract Miner {
     //Calculated Gold (ROUNDS DOWN), transfers gold coin to user, removes the mineral coin from balance, adds mineral to burn balance
     function mineGold() public {
         uint256 calcGold = walletBalance[msg.sender] * (goldRate * 10) / 100000;
+        require(!lock, "You Cannot Mine Gold at this time");
         require(calcGold > 0);
         goldCoin.transfer(msg.sender, calcGold);
         walletBalance[msg.sender] -= calcGold;
         walletBalance[address(this)] -= calcGold;
 
         mineralToBurn += calcGold;
+        lock = true;
+    }
+
+    function setLock(bool _lock) public onlyOwner {
+        lock = _lock;
     }
 
     //Only the owner of this contract can set the rate of gold, initial gold rate is 5%
@@ -83,6 +91,10 @@ contract Miner {
 
     function getContractBalance() public view returns(uint256) {
         return address(this).balance;
+    }
+
+    function setMinerialPrice(uint256 _newPrice) public onlyOwner {
+        setMinerialPrice(_newPrice);
     }
 
     function buyMineral() public payable {
